@@ -98,16 +98,13 @@
         </div>
     </footer>
     <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex justify-center items-center p-4">
-        <!-- MODAL ATUALIZADO PARA LAYOUT HORIZONTAL EM TELAS MAIORES -->
-        <div class="bg-gray-800 w-full max-w-4xl mx-4 rounded-lg shadow-lg flex flex-col md:flex-row" style="max-height: 90vh;">
-            <!-- COLUNA ESQUERDA: ITENS DO PEDIDO -->
+        <div class="bg-gray-800 w-full max-w-4xl mx-4 rounded-lg shadow-lg flex flex-col md:flex-row overflow-hidden" style="max-height: 90vh;">
             <div class="w-full md:w-1/2 flex flex-col">
-                 <div class="p-5 border-b border-gray-700"><h2 class="text-2xl font-bold text-center text-red-500">Meu Pedido</h2></div>
+                 <div class="p-5 border-b border-gray-700 flex-shrink-0"><h2 class="text-2xl font-bold text-center text-red-500">Meu Pedido</h2></div>
                  <div id="cart-items" class="p-5 overflow-y-auto flex-grow"></div>
             </div>
-            <!-- COLUNA DIREITA: FORMULÁRIO E FINALIZAÇÃO -->
-            <div class="w-full md:w-1/2 p-5 border-t md:border-t-0 md:border-l border-gray-700 flex flex-col justify-between">
-                <div>
+            <div class="w-full md:w-1/2 flex flex-col md:border-l border-gray-700">
+                <div class="p-5 overflow-y-auto flex-grow">
                     <p class="flex justify-between font-bold text-lg mb-4"><span>Total:</span><span id="modal-total">R$ 0,00</span></p>
                     <div class="space-y-4">
                         <input type="text" id="customer-name" placeholder="Digite seu nome para retirada" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-red-500" required>
@@ -121,16 +118,17 @@
                                 <button class="payment-btn border border-gray-600 p-2 rounded-lg" data-value="Dinheiro">Dinheiro</button>
                             </div>
                         </div>
-                        <div id="pix-info" class="hidden mt-3 p-3 bg-gray-700 rounded-lg text-sm">
-                            <p class="font-bold text-center">Dados para Pagamento via Pix</p>
-                            <p class="mt-2"><span class="font-semibold">Chave CPF:</span> 84995300368</p>
+                        <!-- JANELA DO PIX MENOR -->
+                        <div id="pix-info" class="hidden mt-2 p-2 bg-gray-700 rounded-lg text-xs">
+                            <p class="font-bold text-center mb-1">Pagamento via Pix</p>
+                            <p><span class="font-semibold">Chave CPF:</span> 84995300368</p>
                             <p><span class="font-semibold">Nome:</span> Betânia Almeida Oliveira de Sousa</p>
-                            <p class="text-xs text-yellow-400 font-semibold mt-2">Caso o pagamento seja via Pix, por favor, envie o comprovante no WhatsApp.</p>
+                            <p class="text-yellow-400 mt-1">Envie o comprovante no WhatsApp.</p>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div class="mt-6 flex justify-between items-center gap-4">
+                <div class="p-5 border-t border-gray-700 flex-shrink-0">
+                    <div class="flex justify-between items-center gap-4">
                         <button id="close-modal-button" class="w-1/2 py-3 rounded bg-gray-600 hover:bg-gray-700 text-white font-bold">Fechar</button>
                         <button id="checkout-button" class="w-1/2 py-3 rounded bg-green-600 hover:bg-green-700 text-white font-bold">Enviar Pedido</button>
                     </div>
@@ -201,5 +199,4 @@
 
 </body>
 </html>
-
 
