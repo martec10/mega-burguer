@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Burguer - Cardápio Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .title-font {
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1px;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+        .payment-btn.selected { background-color: #ef4444; border-color: #ef4444; color: white; }
+        @keyframes fadeInOut {
+            0% { transform: translateY(100%); opacity: 0; } 15% { transform: translateY(0); opacity: 1; }
+            85% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(100%); opacity: 0; }
+        }
+        .toast-animation { animation: fadeInOut 3s forwards; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto max-w-3xl px-4 pb-48">
+        
+        <header class="text-center py-8">
+            <div class="inline-block bg-red-600 p-6 rounded-2xl shadow-lg">
+                <div class="flex flex-col items-center">
+                    <img src="https://i.imgur.com/SEQrIeN.jpeg" alt="Logo Mega Burguer" class="w-28 h-28 rounded-full object-cover -mb-4 shadow-lg">
+                    <h1 class="text-6xl font-bold text-yellow-400 flex flex-col -space-y-4 leading-none title-font">
+                        <span>Mega</span>
+                        <span>Burguer</span>
+                    </h1>
+                </div>
+            </div>
+            
+            <p class="text-gray-300 mt-4">Avenida Mota e Silva, 447 - Senador La Rocque/MA</p>
+            <p class="text-gray-400 text-sm mt-1">Horário: Terça a Domingo, das 19:20 às 23:00</p>
+            <p class="text-gray-300 font-semibold mt-2">Aceitamos : Cartões de Débito, Crédito e Pix</p>
+            <div class="mt-4 bg-yellow-200 text-yellow-900 font-bold p-3 rounded-lg text-center">
+                <p>⚠️ ATENÇÃO: No momento, estamos trabalhando apenas com retirada no local.</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="my-8 p-4 bg-gray-800 rounded-lg space-y-3">
+                <h3 class="text-xl font-bold text-center text-yellow-400">🛍️ Faça seu pedido com facilidade!</h3>
+                <p class="text-gray-300">📱 Escolha seus itens direto pelo nosso cardápio digital.</p>
+                <p class="text-gray-300">💬 Ao finalizar, seu pedido será enviado para o nosso WhatsApp.</p>
+                <p class="text-gray-300">✅ Você confirma o pedido e recebe o atendimento rapidinho!</p>
+                <p class="text-center font-semibold mt-3">Simples, rápido e sem complicações. Experimente agora!</p>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-semibold border-l-4 border-yellow-400 pl-3 mb-6 text-yellow-400">Combos (super promoção!)</h2>
+                <div id="combos-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Nossos Clássicos</h2>
+                <div id="burgers-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Batata Frita</h2>
+                <div id="fries-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Adicionais</h2>
+                <div id="extras-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Tira Gosto</h2>
+                <div id="tira-gosto-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Cervejas</h2>
+                <div id="beers-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Sucos</h2>
+                <div id="juices-menu" class="space-y-4"></div>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold border-l-4 border-red-500 pl-3 mb-6">Bebidas</h2>
+                <div id="drinks-menu" class="space-y-4"></div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-900/90 backdrop-blur-sm border-t border-gray-700 z-10">
+        <div class="container mx-auto max-w-3xl flex justify-between items-center p-4">
+            <div><p class="font-semibold">Total: <span id="cart-total">R$ 0,00</span></p></div>
+            <button id="view-cart-button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg flex items-center gap-2">Ver Carrinho<span id="cart-count" class="bg-gray-900 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span></button>
+        </div>
+        <div class="text-center text-xs text-gray-500 pt-2 pb-3 border-t border-gray-800">
+            <p>&copy; 2025 Mega Burguer - Licença exclusiva. Todos os direitos reservados.</p>
+            <p>Desenvolvido por Martec10 | Contato: (99) 98836-8174</p>
+        </div>
+    </footer>
+    
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-gray-800 w-full max-w-lg mx-4 rounded-lg shadow-lg flex flex-col overflow-hidden" style="max-height: 90vh;">
+            <div class="p-5 border-b border-gray-700 flex-shrink-0"><h2 class="text-2xl font-bold text-center text-red-500">Meu Pedido</h2></div>
+            <div id="cart-items" class="p-5 overflow-y-auto flex-grow"></div>
+            <div class="p-5 border-t border-gray-700 flex-shrink-0">
+                <p class="flex justify-between font-bold text-lg mb-4"><span>Total:</span><span id="modal-total">R$ 0,00</span></p>
+                <div class="flex justify-between items-center gap-4">
+                    <button id="close-cart-modal-button" class="w-1/2 py-3 rounded bg-gray-600 hover:bg-gray-700 text-white font-bold">Voltar</button>
+                    <button id="go-to-checkout-button" class="w-1/2 py-3 rounded bg-green-600 hover:bg-green-700 text-white font-bold">Finalizar Pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-gray-800 w-full max-w-lg mx-4 rounded-lg shadow-lg flex flex-col overflow-hidden" style="max-height: 90vh;">
+            <div class="p-5 border-b border-gray-700 flex-shrink-0"><h2 class="text-2xl font-bold text-center text-red-500">Finalizar Pedido</h2></div>
+            <div class="p-5 overflow-y-auto flex-grow">
+                <p class="flex justify-between font-bold text-lg mb-4"><span>Total:</span><span id="checkout-total">R$ 0,00</span></p>
+                <div class="space-y-4">
+                    <input type="text" id="customer-name" placeholder="Seu nome completo" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-red-500" required>
+                    <input type="tel" id="customer-phone" placeholder="Telefone para contato" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-red-500" required>
+                    <textarea id="order-notes" placeholder="Informações Adicionais (Ex: sem cebola, etc.)" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:outline-none focus:border-red-500 h-20"></textarea>
+                    <div>
+                        <label class="block mb-2 font-semibold">Forma de pagamento:</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button class="payment-btn border border-gray-600 p-2 rounded-lg" data-value="Pix">Pix</button>
+                            <button class="payment-btn border border-gray-600 p-2 rounded-lg" data-value="Cartão">Cartão</button>
+                            <button class="payment-btn border border-gray-600 p-2 rounded-lg" data-value="Dinheiro">Dinheiro</button>
+                        </div>
+                    </div>
+                    <!-- DIV DO PIX CORRIGIDA/RESTAURADA -->
+                    <div id="pix-info" class="hidden mt-2 p-2 bg-gray-700 rounded-lg text-xs">
+                        <p class="font-bold text-center mb-1">Pagamento via Pix</p>
+                        <p><span class="font-semibold">Chave CPF:</span> 84995300368</p>
+                        <p><span class="font-semibold">Nome:</span> Betânia A. O. de Sousa</p>
+                        <p><span class="font-semibold">Banco:</span> Next/Bradesco</p>
+                        <p class="text-yellow-400 mt-1">Envie o comprovante no WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-5 border-t border-gray-700 flex-shrink-0">
+                <div class="flex justify-between items-center gap-4">
+                    <button id="back-to-cart-button" class="w-1/2 py-3 rounded bg-gray-600 hover:bg-gray-700 text-white font-bold">Voltar</button>
+                    <button id="checkout-button" class="w-1/2 py-3 rounded bg-green-600 hover:bg-green-700 text-white font-bold">Enviar Pedido</button>
+                </div>
+                <p id="error-message" class="text-red-500 text-center mt-3 hidden">Por favor, preencha todos os campos!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE PÓS-PEDIDO RESTAURADO -->
+    <div id="post-order-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex justify-center items-center p-4">
+        <div class="bg-gray-800 w-full max-w-md mx-auto rounded-lg shadow-lg p-6 text-center">
+            <div id="pix-confirmation" class="hidden">
+                <h2 class="text-2xl font-bold text-yellow-400 mb-4">Pedido Enviado!</h2>
+                <p class="mb-4">Para confirmar, realize o pagamento e envie o comprovante no WhatsApp.</p>
+                <div class="mt-2 p-3 bg-gray-700 rounded-lg text-sm text-left">
+                    <p class="font-bold text-center mb-2">Dados para Pagamento via Pix</p>
+                    <p><span class="font-semibold">Chave CPF:</span> 84995300368</p>
+                    <p><span class="font-semibold">Nome:</span> Betânia A. O. de Sousa</p>
+                    <p><span class="font-semibold">Banco:</span> Next/Bradesco</p>
+                </div>
+            </div>
+            <div id="dinheiro-confirmation" class="hidden">
+                <h2 class="text-2xl font-bold text-green-400 mb-4">Pedido Enviado!</h2>
+                <p class="mb-4">Se precisar de troco, por favor, nos informe no WhatsApp.</p>
+            </div>
+            <div id="cartao-confirmation" class="hidden">
+                <h2 class="text-2xl font-bold text-blue-400 mb-4">Pedido Enviado!</h2>
+                <p class="mb-4">Por favor, aguarde no WhatsApp. Vamos enviar-lhe o link para pagamento com cartão.</p>
+            </div>
+            <button id="close-post-order-modal" class="mt-6 w-full py-3 rounded bg-red-600 hover:bg-red-700 text-white font-bold">Fechar</button>
+        </div>
+    </div>
+    
+    <div id="toast" class="fixed bottom-20 right-5 bg-green-600 text-white py-2 px-5 rounded-lg shadow-lg hidden">Item adicionado ao carrinho!</div>
+    
+    <script>
+        const WHATSAPP_NUMBER = "5599988368174";
+        const menuItems = [
+            { id: 17, name: "Combo nº1", description: "X-Burguer + Refri Lata 350ml + Batata PP (85g)", price: 24.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 18, name: "Combo nº2", description: "X-Salada + Refri Lata 350ml + Batata PP (85g)", price: 27.50, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 19, name: "Combo nº3", description: "X-Bacon + Refri Lata 350ml + Batata PP (85g)", price: 29.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 20, name: "Combo nº4", description: "X-Egg + Refri Lata 350ml + Batata PP (85g)", price: 29.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 21, name: "Combo nº5", description: "X-Calabresa + Refri Lata 350ml + Batata PP (85g)", price: 29.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 22, name: "Combo nº6", description: "X-Tudo + Refri Lata 350ml + Batata PP (85g)", price: 30.50, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 23, name: "Combo nº7", description: "X-Mega + Refri Lata 350ml + Batata PP (85g)", price: 31.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 24, name: "Combo nº8", description: "X-Supremo + Refri Lata 350ml + Batata PP (85g)", price: 33.80, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 25, name: "Combo nº9", description: "X-Duplo Queijo + Refri Lata 350ml + Batata PP (85g)", price: 35.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
+            { id: 6, name: "X-Burguer", description: "Pão, maionese, hamburguer 120g, queijo, cebola roxa, ketchup e mostarda.", price: 15.00, category: "burgers", image: "https://i.imgur.com/VdYv6TB.jpeg" },
+            { id: 49, name: "X-Atum", description: "Pão, maionese especial, pasta de atum, alface e tomate.", price: 18.00, category: "burgers", image: "https://placehold.co/150x150/ef4444/ffffff?text=X-Atum" },
+            { id: 10, name: "X-Salada", description: "Pão, maionese, hamburguer 120g, queijo, alface, tomate, cebola roxa, picles, ketchup e mostarda.", price: 19.00, category: "burgers", image: "https://i.imgur.com/SEQrIeN.jpeg" },
+            { id: 11, name: "X-Egg", description: "Pão, maionese, queijo, hamburguer 120g, ovo, picles, tomate, cebola roxa, ketchup e mostarda.", price: 20.80, category: "burgers", image: "https://i.imgur.com/X2SCgVq.jpeg" },
+            { id: 12, name: "X-Calabresa", description: "Pão, maionese, hamburguer 120g, queijo, calabresa, picles, cebola roxa, tomate, ketchup e mostarda.", price: 20.90, category: "burgers", image: "https://i.imgur.com/StV82yX.jpeg" },
+            { id: 13, name: "X-Bacon", description: "Pão, maionese, hamburguer 120g, queijo, bacon, cebola roxa, picles, ketchup e mostarda.", price: 21.00, category: "burgers", image: "https://i.imgur.com/yzWRYhc.jpeg" },
+            { id: 9, name: "X-Tudo", description: "Pão, maionese, hamburguer 120g, queijo, ovo, bacon, alface, tomate, cebola roxa, picles, ketchup e mostarda", price: 22.50, category: "burgers", image: "https://i.imgur.com/unmQIzI.jpeg" },
+            { id: 14, name: "X-Mega", description: "Pão, maionese, hamburguer 120g, queijo, picles, cheddar, bacon, tomate, cebola, ketchup, mostarda e barbecue.", price: 23.30, category: "burgers", image: "https://i.imgur.com/OncloWg.jpeg" },
+            { id: 15, name: "X-Supremo", description: "Pão, maionese, 2 hambugueres 120g, queijo, cheddar, bacon, tomate, cebola roxa, picles, ketchup, mostarda e barbecue.", price: 26.00, category: "burgers", image: "https://d3sn2rlrwxy0ce.cloudfront.net/_800x600_crop_center-center_none/Stacker-DP-1.png?mtime=20221203071410&focal=none&tmtime=20241024134409" },
+            { id: 16, name: "X-Duplo Queijo", description: "Pão, maionese, 2 hamburgueres, queijos, cheddar, bacon, cebola roxa, picles, ketchup, mostarda, barbecue e maionese verde.", price: 27.80, category: "burgers", image: "https://i.imgur.com/6VUwx9a.jpeg" },
+            { id: 26, name: "Batata Frita Simples PP (85g)", description: "Porção individual.", price: 5.00, category: "fries", image: "https://i.imgur.com/GIJQPOT.jpeg" },
+            { id: 27, name: "Batata Frita Simples P (160g)", description: "Porção pequena.", price: 10.00, category: "fries", image: "https://i.imgur.com/x98ypqP.jpeg" },
+            { id: 28, name: "Batata Frita M com Cheddar (230g)", description: "Coberta com cheddar cremoso.", price: 15.00, category: "fries", image: "https://i.imgur.com/jOjPXMP.jpeg" },
+            { id: 29, name: "Batata Frita Especial (350g)", description: "Porção generosa com bacon e cheddar.", price: 25.00, category: "fries", image: "https://i.imgur.com/9XSJBIh.jpeg" },
+            { id: 43, name: "Adicional de Ovo", description: "1 unidade", price: 2.00, category: "extras", image: "https://i.imgur.com/sQhQ5jv.jpeg" },
+            { id: 44, name: "Adicional de Hambúrguer (120g)", description: "1 unidade", price: 4.00, category: "extras", image: "https://i.imgur.com/F95RTHt.jpeg" },
+            { id: 45, name: "Adicional de Cheddar", description: "1 porção", price: 2.00, category: "extras", image: "https://i.imgur.com/8eyES2c.jpeg" },
+            { id: 48, name: "Adicional de Bacon", description: "1 porção", price: 4.00, category: "extras", image: "https://i.imgur.com/vyk1yjI.jpeg" },
+            { id: 46, name: "Porção de Batata Frita com Calabresa", description: "Acompanha alface, tomate e cebola.", price: 40.00, category: "tira-gosto", image: "https://i.imgur.com/97F453Q.jpeg" },
+            { id: 47, name: "Porção de Batata Frita com Carne", description: "Acompanha alface, tomate e cebola.", price: 43.00, category: "tira-gosto", image: "https://i.imgur.com/KbLT1IO.jpeg" },
+            { id: 38, name: "Skol 300ml (Retornável)", description: "A famosa 'buchudinha'.", price: 5.00, category: "beers", image: "https://i.imgur.com/ZeTocNT.jpeg" },
+            { id: 39, name: "Skol 600ml (Retornável)", description: "Garrafa de 600ml retornável.", price: 11.00, category: "beers", image: "https://i.imgur.com/CfvJ3f5.jpeg" },
+            { id: 40, name: "Corona Long Neck 330ml", description: "Cerveja premium mexicana.", price: 12.00, category: "beers", image: "https://i.imgur.com/rKPFkR3.jpeg" },
+            { id: 41, name: "Stella Artois Long Neck 330ml", description: "Cerveja premium belga.", price: 11.00, category: "beers", image: "https://i.imgur.com/5CtP20o.jpeg" },
+            { id: 42, name: "Heineken Long Neck 330ml", description: "Cerveja premium holandesa.", price: 11.00, category: "beers", image: "https://i.imgur.com/nY9JUHO.jpeg" },
+            { id: 30, name: "Suco de Maracujá 350ml", description: "Copo de 350ml", price: 5.00, category: "juices", image: "https://i.imgur.com/G9VlG1y.jpeg" },
+            { id: 31, name: "Suco de Maracujá 440ml", description: "Copo de 440ml", price: 7.00, category: "juices", image: "https://i.imgur.com/G9VlG1y.jpeg" },
+            { id: 32, name: "Suco de Acerola 350ml", description: "Copo de 350ml", price: 5.00, category: "juices", image: "https://i.imgur.com/yHFdVc7.jpeg" },
+            { id: 33, name: "Suco de Acerola 440ml", description: "Copo de 440ml", price: 7.00, category: "juices", image: "https://i.imgur.com/yHFdVc7.jpeg" },
+            { id: 34, name: "Suco de Abacaxi 350ml", description: "Copo de 350ml", price: 5.00, category: "juices", image: "https://i.imgur.com/g3Q1Zvq.jpeg" },
+            { id: 35, name: "Suco de Abacaxi 440ml", description: "Copo de 440ml", price: 7.00, category: "juices", image: "https://i.imgur.com/g3Q1Zvq.jpeg" },
+            { id: 7, name: "Refrigerante Lata", description: "Coca-Cola, Guaraná, Fanta (350ml)", price: 5.00, category: "drinks", image: "https://i.imgur.com/YjjAuTv.jpeg" },
+            { id: 36, name: "Refrigerante 1L", description: "Coca-Cola, Fanta Laranja", price: 9.00, category: "drinks", image: "https://i.imgur.com/wQpgu0W.jpeg" },
+            { id: 37, name: "Refrigerante 2L", description: "Coca-Cola, Fanta Laranja, Fanta Uva", price: 12.00, category: "drinks", image: "https://i.imgur.com/JqXEpw5.jpeg" },
+        ];
+        
+        let cart = [];
+        let selectedPaymentMethod = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const combosMenu = document.getElementById("combos-menu");
+            const burgersMenu = document.getElementById("burgers-menu");
+            const friesMenu = document.getElementById("fries-menu");
+            const extrasMenu = document.getElementById("extras-menu");
+            const tiraGostoMenu = document.getElementById("tira-gosto-menu");
+            const beersMenu = document.getElementById("beers-menu");
+            const juicesMenu = document.getElementById("juices-menu");
+            const drinksMenu = document.getElementById("drinks-menu");
+            const cartModal = document.getElementById("cart-modal");
+            const viewCartButton = document.getElementById("view-cart-button");
+            const closeCartModalButton = document.getElementById("close-cart-modal-button");
+            const goToCheckoutButton = document.getElementById("go-to-checkout-button");
+            const checkoutModal = document.getElementById("checkout-modal");
+            const backToCartButton = document.getElementById("back-to-cart-button");
+            const checkoutButton = document.getElementById("checkout-button");
+            const cartItemsContainer = document.getElementById("cart-items");
+            const cartTotalSpan = document.getElementById("cart-total");
+            const modalTotalSpan = document.getElementById("modal-total");
+            const checkoutTotalSpan = document.getElementById("checkout-total");
+            const cartCountSpan = document.getElementById("cart-count");
+            const toast = document.getElementById("toast");
+            const errorMessage = document.getElementById("error-message");
+            const postOrderModal = document.getElementById("post-order-modal");
+            const pixConfirmation = document.getElementById("pix-confirmation");
+            const dinheiroConfirmation = document.getElementById("dinheiro-confirmation");
+            const cartaoConfirmation = document.getElementById("cartao-confirmation");
+            const closePostOrderModal = document.getElementById("close-post-order-modal");
+            const pixInfo = document.getElementById("pix-info");
+
+            function formatCurrency(value) { return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
+
+            function renderMenuItems() {
+                const htmlMap = { combos: "", burgers: "", fries: "", extras: "", "tira-gosto": "", beers: "", juices: "", drinks: "" };
+                
+                const juiceGroups = {};
+                menuItems.filter(item => item.category === 'juices').forEach(item => {
+                    const baseName = item.name.replace(/ \d+ml/, '').trim();
+                    if (!juiceGroups[baseName]) juiceGroups[baseName] = [];
+                    juiceGroups[baseName].push(item);
+                });
+
+                for (const baseName in juiceGroups) {
+                    const items = juiceGroups[baseName].sort((a, b) => a.price - b.price);
+                    const optionsHTML = items.map(item => `<div class="flex justify-between items-center cursor-pointer hover:bg-gray-700 p-2 rounded-md add-to-cart-btn" data-id="${item.id}"><span class="text-gray-300">${item.description}</span><span class="font-semibold text-red-500">${formatCurrency(item.price)}</span></div>`).join('');
+                    htmlMap.juices += `<div class="flex gap-4 bg-gray-800 p-4 rounded-lg shadow-md"><img src="${items[0].image}" alt="${baseName}" class="w-24 h-24 rounded-md object-cover"><div class="flex-grow"><h3 class="font-bold text-lg">${baseName}</h3><div class="mt-2 space-y-1">${optionsHTML}</div></div></div>`;
+                }
+
+                menuItems.forEach(item => {
+                    if (item.category === 'juices') return;
+                    const menuItemHTML = `<div class="flex gap-4 bg-gray-800 p-4 rounded-lg shadow-md cursor-pointer hover:scale-105 transition-transform duration-300 add-to-cart-btn" data-id="${item.id}"><img src="${item.image}" alt="${item.name}" class="w-24 h-24 rounded-md object-cover"><div class="flex flex-col flex-grow"><h3 class="font-bold text-lg">${item.name}</h3><p class="text-gray-400 text-sm flex-grow">${item.description}</p><p class="font-semibold text-red-500 mt-2">${formatCurrency(item.price)}</p></div></div>`;
+                    if (htmlMap.hasOwnProperty(item.category)) {
+                        htmlMap[item.category] += menuItemHTML;
+                    }
+                });
+
+                combosMenu.innerHTML = htmlMap.combos;
+                burgersMenu.innerHTML = htmlMap.burgers;
+                friesMenu.innerHTML = htmlMap.fries;
+                extrasMenu.innerHTML = htmlMap.extras;
+                tiraGostoMenu.innerHTML = htmlMap["tira-gosto"];
+                beersMenu.innerHTML = htmlMap.beers;
+                juicesMenu.innerHTML = htmlMap.juices;
+                drinksMenu.innerHTML = htmlMap.drinks;
+            }
+
+            function updateCart() {
+                cartItemsContainer.innerHTML = "";
+                let total = 0, totalItems = 0;
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = "<p class='text-center text-gray-400'>Seu carrinho está vazio.</p>";
+                } else {
+                    cart.forEach(item => {
+                        cartItemsContainer.innerHTML += `<div class="flex justify-between items-center mb-4 bg-gray-700 p-3 rounded-lg"><div><p class="font-bold">${item.name}</p><p class="text-sm text-gray-300">Preço: ${formatCurrency(item.price)}</p></div><div class="flex items-center gap-3"><button class="bg-gray-600 px-2 rounded font-bold remove-from-cart-btn" data-id="${item.id}">-</button><span>${item.quantity}</span><button class="bg-gray-600 px-2 rounded font-bold add-to-cart-btn" data-id="${item.id}">+</button></div></div>`;
+                        total += item.price * item.quantity;
+                        totalItems += item.quantity;
+                    });
+                }
+                cartTotalSpan.textContent = formatCurrency(total);
+                modalTotalSpan.textContent = formatCurrency(total);
+                checkoutTotalSpan.textContent = formatCurrency(total);
+                cartCountSpan.textContent = totalItems;
+            }
+
+            function addToCart(itemId) {
+                const existingItem = cart.find(item => item.id === itemId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ ...menuItems.find(item => item.id === itemId), quantity: 1 });
+                }
+                updateCart();
+                showToast();
+            }
+
+            function removeFromCart(itemId) {
+                const itemIndex = cart.findIndex(item => item.id === itemId);
+                if (itemIndex > -1) {
+                    if (cart[itemIndex].quantity > 1) {
+                        cart[itemIndex].quantity--;
+                    } else {
+                        cart.splice(itemIndex, 1);
+                    }
+                }
+                updateCart();
+            }
+
+            function showToast() {
+                toast.classList.remove("hidden");
+                toast.classList.add("toast-animation");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                    toast.classList.remove("toast-animation");
+                }, 3000);
+            }
+
+            function checkout() {
+                const customerName = document.getElementById("customer-name").value.trim();
+                const customerPhone = document.getElementById("customer-phone").value.trim();
+                const paymentMethod = selectedPaymentMethod;
+                const orderNotes = document.getElementById("order-notes").value.trim();
+
+                if (!customerName || !customerPhone || !paymentMethod || cart.length === 0) {
+                    errorMessage.textContent = "Por favor, preencha nome, telefone e forma de pagamento!";
+                    errorMessage.classList.remove("hidden");
+                    return;
+                }
+                
+                errorMessage.classList.add("hidden");
+                
+                const orderId = `#${Date.now().toString().slice(-6)}`;
+                const orderTime = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+                let total = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+                let message = `🍔 *NOVO PEDIDO - MEGA BURGUER* 🍔\n\n`;
+                message += `*Pedido:* ${orderId}\n*Horário:* ${orderTime}\n\n*Itens:*\n`;
+                cart.forEach(item => {
+                    message += `- ${item.quantity}x ${item.name}\n`;
+                });
+                message += `\n*Total:* ${formatCurrency(total)}\n\n*Dados para Retirada:*\n`;
+                message += `*Nome:* ${customerName}\n`;
+                message += `*Telefone:* ${customerPhone}\n`;
+                if (orderNotes) {
+                    message += `*Observações:* ${orderNotes}\n`;
+                }
+                message += `*Forma de Pagamento:* ${paymentMethod}\n\n`;
+                message += "Aguardando para retirar no local. Obrigado!";
+                
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
+                
+                checkoutModal.classList.add("hidden");
+                showPostOrderModal(paymentMethod);
+
+                cart = [];
+                updateCart();
+            }
+            
+            function showPostOrderModal(paymentMethod) {
+                pixConfirmation.classList.add("hidden");
+                dinheiroConfirmation.classList.add("hidden");
+                cartaoConfirmation.classList.add("hidden");
+
+                if (paymentMethod === 'Pix') {
+                    pixConfirmation.classList.remove("hidden");
+                } else if (paymentMethod === 'Dinheiro') {
+                    dinheiroConfirmation.classList.remove("hidden");
+                } else {
+                    cartaoConfirmation.classList.remove("hidden");
+                }
+
+                postOrderModal.classList.remove("hidden");
+            }
+
+            viewCartButton.addEventListener("click", () => cartModal.classList.remove("hidden"));
+            closeCartModalButton.addEventListener("click", () => cartModal.classList.add("hidden"));
+            
+            goToCheckoutButton.addEventListener("click", () => {
+                if (cart.length > 0) {
+                    cartModal.classList.add("hidden");
+                    checkoutModal.classList.remove("hidden");
+                }
+            });
+            
+            backToCartButton.addEventListener("click", () => {
+                checkoutModal.classList.add("hidden");
+                cartModal.classList.remove("hidden");
+            });
+            
+            document.addEventListener("click", function(e) {
+                const targetElement = e.target;
+                if (targetElement.closest(".add-to-cart-btn")) {
+                    addToCart(parseInt(targetElement.closest(".add-to-cart-btn").dataset.id));
+                } else if (targetElement.closest(".remove-from-cart-btn")) {
+                    removeFromCart(parseInt(targetElement.closest(".remove-from-cart-btn").dataset.id));
+                } else if (targetElement.closest(".payment-btn")) {
+                    document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
+                    targetElement.closest(".payment-btn").classList.add('selected');
+                    selectedPaymentMethod = targetElement.closest(".payment-btn").dataset.value;
+                    pixInfo.classList.toggle("hidden", selectedPaymentMethod !== "Pix");
+                }
+            });
+
+            checkoutButton.addEventListener("click", checkout);
+            closePostOrderModal.addEventListener("click", () => {
+                postOrderModal.classList.add("hidden");
+            });
+            renderMenuItems();
+        });
+    </script>
+
+</body>
+</html>
