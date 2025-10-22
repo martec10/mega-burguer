@@ -132,14 +132,6 @@
                             <button class="payment-btn border border-gray-600 p-2 rounded-lg" data-value="Dinheiro">Dinheiro</button>
                         </div>
                     </div>
-                    <!-- DIV DO PIX CORRIGIDA/RESTAURADA -->
-                    <div id="pix-info" class="hidden mt-2 p-2 bg-gray-700 rounded-lg text-xs">
-                        <p class="font-bold text-center mb-1">Pagamento via Pix</p>
-                        <p><span class="font-semibold">Chave CPF:</span> 84995300368</p>
-                        <p><span class="font-semibold">Nome:</span> Betânia A. O. de Sousa</p>
-                        <p><span class="font-semibold">Banco:</span> Next/Bradesco</p>
-                        <p class="text-yellow-400 mt-1">Envie o comprovante no WhatsApp.</p>
-                    </div>
                 </div>
             </div>
             <div class="p-5 border-t border-gray-700 flex-shrink-0">
@@ -152,18 +144,11 @@
         </div>
     </div>
 
-    <!-- MODAL DE PÓS-PEDIDO RESTAURADO -->
     <div id="post-order-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden flex justify-center items-center p-4">
         <div class="bg-gray-800 w-full max-w-md mx-auto rounded-lg shadow-lg p-6 text-center">
             <div id="pix-confirmation" class="hidden">
                 <h2 class="text-2xl font-bold text-yellow-400 mb-4">Pedido Enviado!</h2>
-                <p class="mb-4">Para confirmar, realize o pagamento e envie o comprovante no WhatsApp.</p>
-                <div class="mt-2 p-3 bg-gray-700 rounded-lg text-sm text-left">
-                    <p class="font-bold text-center mb-2">Dados para Pagamento via Pix</p>
-                    <p><span class="font-semibold">Chave CPF:</span> 84995300368</p>
-                    <p><span class="font-semibold">Nome:</span> Betânia A. O. de Sousa</p>
-                    <p><span class="font-semibold">Banco:</span> Next/Bradesco</p>
-                </div>
+                <p class="mb-4">Por favor, aguarde no WhatsApp. Vamos enviar-lhe a chave Pix para pagamento.</p>
             </div>
             <div id="dinheiro-confirmation" class="hidden">
                 <h2 class="text-2xl font-bold text-green-400 mb-4">Pedido Enviado!</h2>
@@ -192,7 +177,6 @@
             { id: 24, name: "Combo nº8", description: "X-Supremo + Refri Lata 350ml + Batata PP (85g)", price: 33.80, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
             { id: 25, name: "Combo nº9", description: "X-Duplo Queijo + Refri Lata 350ml + Batata PP (85g)", price: 35.00, category: "combos", image: "https://i.imgur.com/hhdqEef.jpeg" },
             { id: 6, name: "X-Burguer", description: "Pão, maionese, hamburguer 120g, queijo, cebola roxa, ketchup e mostarda.", price: 15.00, category: "burgers", image: "https://i.imgur.com/VdYv6TB.jpeg" },
-            { id: 49, name: "X-Atum", description: "Pão, maionese especial, pasta de atum, alface e tomate.", price: 18.00, category: "burgers", image: "https://placehold.co/150x150/ef4444/ffffff?text=X-Atum" },
             { id: 10, name: "X-Salada", description: "Pão, maionese, hamburguer 120g, queijo, alface, tomate, cebola roxa, picles, ketchup e mostarda.", price: 19.00, category: "burgers", image: "https://i.imgur.com/SEQrIeN.jpeg" },
             { id: 11, name: "X-Egg", description: "Pão, maionese, queijo, hamburguer 120g, ovo, picles, tomate, cebola roxa, ketchup e mostarda.", price: 20.80, category: "burgers", image: "https://i.imgur.com/X2SCgVq.jpeg" },
             { id: 12, name: "X-Calabresa", description: "Pão, maionese, hamburguer 120g, queijo, calabresa, picles, cebola roxa, tomate, ketchup e mostarda.", price: 20.90, category: "burgers", image: "https://i.imgur.com/StV82yX.jpeg" },
@@ -258,7 +242,6 @@
             const dinheiroConfirmation = document.getElementById("dinheiro-confirmation");
             const cartaoConfirmation = document.getElementById("cartao-confirmation");
             const closePostOrderModal = document.getElementById("close-post-order-modal");
-            const pixInfo = document.getElementById("pix-info");
 
             function formatCurrency(value) { return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
 
@@ -429,7 +412,6 @@
                     document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
                     targetElement.closest(".payment-btn").classList.add('selected');
                     selectedPaymentMethod = targetElement.closest(".payment-btn").dataset.value;
-                    pixInfo.classList.toggle("hidden", selectedPaymentMethod !== "Pix");
                 }
             });
 
@@ -443,3 +425,5 @@
 
 </body>
 </html>
+
+
